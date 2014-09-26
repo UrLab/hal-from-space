@@ -10,5 +10,7 @@ randval = randint(0, 1000)
 m = pymongo.MongoClient('localhost', 3001)
 db = m.meteor
 
-
-db.sensors.update({'name':"toread"}, {'$set':{'value':randval}})
+if (db.sensors.count()):
+	db.sensors.update({'name':"toread"}, {'$set':{'value':randval}})
+else:
+	db.sensors.insert({'name':"toread", 'value':randval})
