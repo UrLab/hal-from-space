@@ -19,6 +19,13 @@
             // the data is displayed in the "Received" section of the page
             socket.on('data_update', function(msg) {
                 $('#log').append('<br>Received ' + msg.data);
+                if (msg.data != 0){
+                    $('#value_switch').text('Turn off');
+                }
+                else {
+                    $('#value_switch').text('Turn on');
+                }
+                $('#value').text(msg.data)
             });
 
             // handlers for the different forms in the page
@@ -28,12 +35,24 @@
                 socket.emit('ask_update', {});
                 return false;
             });
+            $('#value_switch').click(function(event) {
+                console.log($('#value').text())
+                if ($('#value').text() != "0"){
+                    socket.emit('value_switch_off', {});
+                }
+                else {
+                    socket.emit('value_switch_on', {});
+                }
+                return false;
+            });
         });
     </script>
 </head>
 <body>
     <h1>Hello, I am Mr. Bowman.</h1>
-	<button id="update">Update</button>    
+	<button id="update">Update</button>
+    <p id="value">...</p>
+    <button id="value_switch">...</button>
     <div id="log"></div>
 </body>
 </html>
