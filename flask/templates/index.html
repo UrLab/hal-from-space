@@ -2,6 +2,8 @@
 <html>
 <head>
     <title>Bowman</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='foundation.min.css') }}">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.4.2.min.js"></script>
     <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min.js"></script>
     <script type="text/javascript" charset="utf-8">
@@ -20,10 +22,12 @@
             socket.on('data_update', function(msg) {
                 $('#log').append('<br>Received ' + msg.data);
                 if (msg.data != 0){
-                    $('#value_switch').text('Turn off');
+                    $('#value_switch').html('<i class="fa fa-times"></i>');
+                    $('#value_switch').attr('class', 'round alert');
                 }
                 else {
-                    $('#value_switch').text('Turn on');
+                    $('#value_switch').html('<i class="fa fa-check"></i>');
+                    $('#value_switch').attr('class', 'round success');
                 }
                 $('#value').text(msg.data)
             });
@@ -31,12 +35,10 @@
             // handlers for the different forms in the page
             // these send data to the server in a variety of ways
             $('#update').click(function(event) {
-                console.log("koukou")
                 socket.emit('ask_update', {});
                 return false;
             });
             $('#value_switch').click(function(event) {
-                console.log($('#value').text())
                 if ($('#value').text() != "0"){
                     socket.emit('value_switch_off', {});
                 }
@@ -52,7 +54,7 @@
     <h1>Hello, I am Mr. Bowman.</h1>
 	<button id="update">Update</button>
     <p id="value">...</p>
-    <button id="value_switch">...</button>
+    <button id="value_switch" class="round">...</button>
     <div id="log"></div>
 </body>
 </html>

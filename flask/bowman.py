@@ -18,6 +18,7 @@ def emit_data_update():
 @socketio.on('client_connected')
 def client_connected():
     print "Client connected"
+    emit_data_update()
 
 @socketio.on('ask_update')
 def ask_update(message):
