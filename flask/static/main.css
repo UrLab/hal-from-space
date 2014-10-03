@@ -1,3 +1,16 @@
+body, h1, h2, h3, h4, h5, h6, p{
+	font-family:"Josefin Sans", sans-serif;
+}
+h1{
+	font-weight: lighter;
+	text-align: center;
+	margin-top:15px;
+}
+
 .fa {
 	font-family:Font-Awesome;
+}
+
+.switch_panel{
+	text-align: center;
 }
