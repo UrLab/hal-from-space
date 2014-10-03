@@ -1,10 +1,24 @@
 body, h1, h2, h3, h4, h5, h6, p{
 	font-family:"Josefin Sans", sans-serif;
+	color:white;
 }
+
+body{
+	background-color: #111;
+	-moz-box-shadow:    inset  0  100px 100px -100px #2379a3, 
+                        inset  0 -100px 100px -100px #2379a3;
+    -webkit-box-shadow: inset  0  100px 100px -100px #2379a3, 
+                        inset  0 -100px 100px -100px #2379a3;
+     box-shadow:        inset  0  100px 100px -100px #2379a3, 
+                        inset  0 -100px 100px -100px #2379a3;
+}
+
 h1{
 	font-weight: lighter;
 	text-align: center;
-	margin-top:15px;
+	padding-top:15px;
+	margin-top:0px;
+	font-style:italic;
 }
 
 .fa {
@@ -12,5 +26,8 @@ h1{
 }
 
 .switch_panel{
+	margin-top:15px;
+	padding-top:20px;
+	border-top:1px solid rgba(255, 255, 255, 0.3);
 	text-align: center;
 }
