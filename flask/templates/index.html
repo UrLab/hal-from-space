@@ -19,6 +19,11 @@
                 socket.emit('client_connected');
             });
 
+            // sending message when disconnecting
+            window.onbeforeunload = function(){
+                socket.emit('client_disconnected');
+            }
+
             // event handler for server sent data
             // the data is displayed in the "Received" section of the page
             socket.on('data_update', function(msg) {
