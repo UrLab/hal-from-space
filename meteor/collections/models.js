@@ -1,1 +1,0 @@
-Sensors = new Meteor.Collection("sensors");
