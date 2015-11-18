@@ -1,7 +1,7 @@
 var bool2class = function(aBoolean){
-    if (aBoolean == true){
+    if (aBoolean === true){
         return "success";
-    } else if (aBoolean == false){
+    } else if (aBoolean === false){
         return "danger";
     }
     return "default";
@@ -28,8 +28,7 @@ var Sensor = React.createClass({
     }
 });
 
-/* <Binary session= prefix= suffix= name= writeable={true|false}> */
-var Binary = React.createClass({
+var HALButton = React.createClass({
     halKey: function(){
         var suffix = (this.props.suffix) ? ('.' + this.props.suffix) : '';
         return this.props.prefix + '.' + this.props.name + suffix;
@@ -39,8 +38,19 @@ var Binary = React.createClass({
     },
     render: function(){
         var klass = this.bootstrapClass() + this.state.button_class;
+        if (this.props.klass){
+            klass = klass + " " + this.props.klass;
+        }
+
+        var caption = this.props.name;
+        if (this.props.icon){
+            caption = <i className={"glyphicon glyphicon-"+this.props.icon}></i>;
+        } else if (this.props.suffix){
+            caption = this.props.name + ' ' + this.props.suffix;
+        }
+
         return <div onClick={this.onClick} className={klass}>
-            {this.props.name} {this.props.suffix}
+            {caption}
         </div>
     },
     getInitialState: function(){
@@ -64,12 +74,36 @@ var Binary = React.createClass({
 
 var Animation = React.createClass({
     render: function(){
-        return <div>
-            <Binary prefix="animation" suffix="play" writeable={true}
-                    name={this.props.name} session={this.props.session}/>
-            <Binary prefix="animation" suffix="loop" writeable={true}
-                    name={this.props.name} session={this.props.session}/>
+        return <div className="row">
+            <div className="col-md-6">
+                <h4>{this.props.name}</h4>
+            </div>
+            <div className="col-md-6">
+                <HALButton prefix="animation" suffix="play" writeable={true}
+                        name={this.props.name} session={this.props.session}
+                        icon="play"/>
+                &nbsp;
+                <HALButton prefix="animation" suffix="loop" writeable={true}
+                        name={this.props.name} session={this.props.session}
+                        icon="repeat"/>
+            </div>
         </div>;
+    }
+});
+
+var Panel = React.createClass({
+    render: function(){
+        var lis = this.props.content.map(function(element){
+            return <li className="list-group-item">{element}</li>;
+        });
+        return <div className={"panel panel-"+this.props.kind}>
+            <div className="panel-heading">
+                <h3>{this.props.header}</h3>
+            </div>
+            <ul className="panel-body list-group">
+                {lis}
+            </ul>
+        </div>
     }
 });
 
@@ -77,24 +111,32 @@ var HAL = React.createClass({
     render: function(){
         var session = this.props.session;
         var triggers = this.state.triggers.map(function(trig){
-            return <li><Binary prefix="trigger" name={trig} session={session}/></li>
+            return <HALButton prefix="trigger" name={trig} session={session}/>
         });
         var sensors = this.state.sensors.map(function(sens){
-            return <li><Sensor name={sens} session={session}/></li>
+            return <Sensor name={sens} session={session}/>
         });
         var switchs = this.state.switchs.map(function(sw){
-            return <li><Binary prefix="switch" name={sw}
-                               session={session} writeable={true}/></li>
+            return <HALButton prefix="switch" name={sw}
+                           session={session} writeable={true}/>
         });
         var animations = this.state.animations.map(function(anim){
-            return <li><Animation name={anim} session={session}/></li>
+            return <Animation name={anim} session={session}/>
         });
 
         return <div className="row">
-            <ul className="col-md-3">{triggers}</ul>
-            <ul className="col-md-3">{sensors}</ul>
-            <ul className="col-md-3">{switchs}</ul>
-            <ul className="col-md-3">{animations}</ul>
+            <div className="col-md-3 col-sm-6 col-xs-12">
+                <Panel header="Switchs" kind="danger" content={switchs}/>
+            </div>
+            <div className="col-md-3 col-sm-6 col-xs-12">
+                <Panel header="Animations" kind="success" content={animations}/>
+            </div>
+            <div className="col-md-3 col-sm-6 col-xs-12">
+                <Panel header="Triggers" kind="warning" content={triggers}/>
+            </div>
+            <div className="col-md-3 col-sm-6 col-xs-12">
+                <Panel header="Sensors" kind="info" content={sensors}/>
+            </div>
         </div>
     },
     getInitialState: function(){

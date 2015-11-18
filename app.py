@@ -20,12 +20,14 @@ class Component(ApplicationSession):
     An application component that publishes an event every second.
     """
 
+    @asyncio.coroutine
     def periodic_tasks(self):
         while True:
             for sensor in self.hal.sensors.values():
                 self.publish('sensor.'+sensor.name, sensor.value)
             yield from asyncio.sleep(2.5)
 
+    @asyncio.coroutine
     def register_triggers(self):
         @self.hal.on_trigger()
         def publish_trigger(name, state):
@@ -39,6 +41,7 @@ class Component(ApplicationSession):
                 return trigger.on
             yield from self.register(current_state_trigger, key)
 
+    @asyncio.coroutine
     def register_switchs(self):
         for sw in self.hal.switchs.values():
             key = 'switch.%s' % sw.name
@@ -53,8 +56,9 @@ class Component(ApplicationSession):
 
             @sw.on_change
             def publish_switch(switch):
-                self.publish(key, switch.on)
+                self.publish('switch.%s' % switch.name, switch.on)
 
+    @asyncio.coroutine
     def register_animations(self):
         for anim in self.hal.animations.values():
             key = 'animation.%s' % anim.name
@@ -85,6 +89,7 @@ class Component(ApplicationSession):
 
             @anim.on_change
             def publish_anim(animation):
+                key = "animation.%s" % animation.name
                 self.publish(key+'.loop', animation.looping)
                 self.publish(key+'.play', animation.playing)
                 self.publish(key+'.fps', animation.fps)
@@ -101,9 +106,5 @@ class Component(ApplicationSession):
 
 
 if __name__ == '__main__':
-    runner = ApplicationRunner(
-        WAMP_BROKER, WAMP_REALM,
-        debug_wamp=True,  # optional; log many WAMP details
-        debug=False,  # optional; log even more details
-    )
+    runner = ApplicationRunner(WAMP_BROKER, WAMP_REALM)
     runner.run(Component)
