@@ -79,7 +79,7 @@ class Component(ApplicationSession):
                 return animation.fps
             yield from self.register(current_fps, key + '.fps.state')
 
-            def set_fps(animation=anim, fps):
+            def set_fps(fps, animation=anim):
                 animation.fps = int(fps)
             yield from self.register(set_fps, key + '.fps.set')
 
