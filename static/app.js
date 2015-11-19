@@ -263,8 +263,3 @@ $(document).ready(function(){
     };
     connection.open();
 });
-
-var widthTranslate = $("h1").width() - $("#datTitle").width();
-console.log(widthTranslate);
-var style = document.documentElement.appendChild(document.createElement("style")),rule = " run {0%   {transform:translateX(0%);} \n 100% {transform:translateX("+ widthTranslate.toString() +"px);}}";
-style.sheet.insertRule("@keyframes" + rule, 0);
