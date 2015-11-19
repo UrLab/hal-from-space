@@ -7,15 +7,48 @@ var bool2class = function(aBoolean){
     return "default";
 };
 
+var Icon = React.createClass({
+    render: function(){
+        return <i className={"glyphicon glyphicon-"+this.props.name}></i>;
+    }
+})
+
 var Sensor = React.createClass({
     halKey: function(){return 'sensor.' + this.props.name;},
     render: function(){
         var style = {'width': this.state.value + '%'};
-        return <div className="progress">
-            <div className="progress-bar" style={style}>
+        var klass = "progress-bar";
+        if (25 < this.state.value && this.state.value <= 50){
+            klass += " progress-bar-info"
+        } else if (50 < this.state.value && this.state.value <= 75){
+            klass += " progress-bar-warning";
+        } else if (this.state.value > 75){
+            klass += " progress-bar-danger";
+        }
+
+        if (this.state.value < 25){
+            return <div className="progress">
+                <div className={klass} style={style}></div>
+                &nbsp;
                 {this.props.name} {this.state.value}%
             </div>
-        </div>
+        }
+        else if (this.state.value < 65){
+            return <div className="progress">
+                <div className={klass} style={style}>
+                    {this.props.name}
+                </div>
+                &nbsp;
+                {this.state.value}%
+            </div>
+        }
+        else {
+            return <div className="progress">
+                <div className={klass} style={style}>
+                    {this.props.name} {this.state.value}%
+                </div>
+            </div>
+        }
     },
     getInitialState: function(){
         return {value: 0};
@@ -47,7 +80,7 @@ var HALButton = React.createClass({
         var klass = this.bootstrapClass();
         var caption = this.props.name;
         if (this.props.icon){
-            caption = <i className={"glyphicon glyphicon-"+this.props.icon}></i>;
+            caption = <Icon name={this.props.icon}/>;
         } else if (this.props.suffix){
             caption = this.props.name + ' ' + this.props.suffix;
         }
@@ -101,7 +134,7 @@ var Panel = React.createClass({
         });
         var icon_dom = '';
         if (this.props.icon){
-            icon_dom = <i className={"glyphicon glyphicon-"+this.props.icon}></i>;
+            icon_dom = <Icon name={this.props.icon}/>;
         }
         return <div className={"panel panel-"+this.props.kind}>
             <div className="panel-heading">
@@ -117,18 +150,34 @@ var Panel = React.createClass({
     }
 });
 
+var LargeRowWrapper = React.createClass({
+    render: function(){
+        var klass = "col-xs-" + this.props.padding;
+        return <div className="row">
+            <div className={klass}></div>
+            {React.Children.only(this.props.children)}
+            <div className={klass}></div>
+        </div>
+    }
+});
+
 var HAL = React.createClass({
     render: function(){
         var session = this.props.session;
         var triggers = this.state.triggers.sort().map(function(trig){
-            return <HALButton prefix="trigger" name={trig} session={session}/>
+            return <LargeRowWrapper padding={2}>
+                <HALButton klass="col-xs-8" prefix="trigger"
+                           name={trig} session={session}/>
+            </LargeRowWrapper>
         });
         var sensors = this.state.sensors.sort().map(function(sens){
             return <Sensor name={sens} session={session}/>
         });
         var switchs = this.state.switchs.sort().map(function(sw){
-            return <HALButton prefix="switch" name={sw}
+            return <LargeRowWrapper padding={2}>
+                <HALButton prefix="switch" name={sw} klass="col-xs-8"
                            session={session} writeable={true}/>
+            </LargeRowWrapper>
         });
         var animations = this.state.animations.sort().map(function(anim){
             return <Animation name={anim} session={session}/>
@@ -136,16 +185,16 @@ var HAL = React.createClass({
 
         return <div className="row">
             <div className="col-lg-3 col-md-6 col-sm-12 col-xs-12">
-                <Panel header="Switchs" kind="danger" content={switchs} icon="log-out"/>
+                <Panel header="Many switchs" kind="danger" content={switchs} icon="log-out"/>
             </div>
             <div className="col-lg-3 col-md-6 col-sm-12 col-xs-12">
-                <Panel header="Animations" kind="success" content={animations} icon="fire"/>
+                <Panel header="Such animations" kind="success" content={animations} icon="fire"/>
             </div>
             <div className="col-lg-3 col-md-6 col-sm-12 col-xs-12">
-                <Panel header="Triggers" kind="warning" content={triggers} icon="log-in"/>
+                <Panel header="Very triggers" kind="warning" content={triggers} icon="log-in"/>
             </div>
             <div className="col-lg-3 col-md-6 col-sm-12 col-xs-12">
-                <Panel header="Sensors" kind="info" content={sensors} icon="stats"/>
+                <Panel header="Wow sensors" kind="info" content={sensors} icon="stats"/>
             </div>
         </div>
     },
