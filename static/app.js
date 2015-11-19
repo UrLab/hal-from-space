@@ -11,11 +11,39 @@ var Sensor = React.createClass({
     halKey: function(){return 'sensor.' + this.props.name;},
     render: function(){
         var style = {'width': this.state.value + '%'};
-        return <div className="progress">
-            <div className="progress-bar" style={style}>
+        var klass = "progress-bar";
+        if (25 < this.state.value && this.state.value <= 50){
+            klass += " progress-bar-info"
+        }
+        if (50 < this.state.value && this.state.value <= 75){
+            klass += " progress-bar-warning";
+        } else if (this.state.value > 75){
+            klass += " progress-bar-danger";
+        }
+
+        if (this.state.value < 25){
+            return <div className="progress">
+                <div className={klass} style={style}></div>
+                &nbsp;
                 {this.props.name} {this.state.value}%
             </div>
-        </div>
+        }
+        else if (this.state.value < 65){
+            return <div className="progress">
+                <div className={klass} style={style}>
+                    {this.props.name}
+                </div>
+                &nbsp;
+                {this.state.value}%
+            </div>
+        }
+        else {
+            return <div className="progress">
+                <div className={klass} style={style}>
+                    {this.props.name} {this.state.value}%
+                </div>
+            </div>
+        }
     },
     getInitialState: function(){
         return {value: 0};
