@@ -2,3 +2,5 @@ __pycache__
 *.pyc
 ve*
 .crossbar/node.pid
+local_config.py
+config.js
