@@ -96,9 +96,16 @@ var Panel = React.createClass({
         var lis = this.props.content.map(function(element){
             return <li className="list-group-item">{element}</li>;
         });
+        var icon_dom = '';
+        if (this.props.icon){
+            icon_dom = <i className={"glyphicon glyphicon-"+this.props.icon}></i>;
+        }
         return <div className={"panel panel-"+this.props.kind}>
             <div className="panel-heading">
-                <h3>{this.props.header}</h3>
+                <h3>
+                    {icon_dom}&nbsp;
+                    {this.props.header}
+                </h3>
             </div>
             <ul className="panel-body list-group">
                 {lis}
@@ -126,16 +133,16 @@ var HAL = React.createClass({
 
         return <div className="row">
             <div className="col-lg-3 col-md-6 col-sm-12 col-xs-12">
-                <Panel header="Switchs" kind="danger" content={switchs}/>
+                <Panel header="Switchs" kind="danger" content={switchs} icon="log-out"/>
             </div>
             <div className="col-lg-3 col-md-6 col-sm-12 col-xs-12">
-                <Panel header="Animations" kind="success" content={animations}/>
+                <Panel header="Animations" kind="success" content={animations} icon="fire"/>
             </div>
             <div className="col-lg-3 col-md-6 col-sm-12 col-xs-12">
-                <Panel header="Triggers" kind="warning" content={triggers}/>
+                <Panel header="Triggers" kind="warning" content={triggers} icon="log-in"/>
             </div>
             <div className="col-lg-3 col-md-6 col-sm-12 col-xs-12">
-                <Panel header="Sensors" kind="info" content={sensors}/>
+                <Panel header="Sensors" kind="info" content={sensors} icon="stats"/>
             </div>
         </div>
     },
