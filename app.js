@@ -155,7 +155,12 @@ var HAL = React.createClass({
 });
 
 $(document).ready(function(){
-    var url = (WAMP_ENDPOINT) ? WAMP_ENDPOINT : 'ws://127.0.0.1:8080/ws';
+    var url;
+    try {
+        url = WAMP_ENDPOINT;
+    } catch (err) {
+        url = 'ws://127.0.0.1:8081/ws';
+    }
     var connection = new autobahn.Connection({
         url: url,
         realm: 'hal'
