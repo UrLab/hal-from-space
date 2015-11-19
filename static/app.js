@@ -109,7 +109,9 @@ var HALButton = React.createClass({
 });
 
 var AnimationFPSSlider = React.createClass({
-    halKey: function(){return 'animation.' + this.props.name + '.fps';},
+    halKey: function(){
+        return 'animation.' + this.props.name + '.fps';
+    },
     handleChange: function(arg){
         var fps = arg.target.value;
         this.props.session.call(this.halKey() + '.set', [fps]);
@@ -145,16 +147,19 @@ var Animation = React.createClass({
                         <h4>{this.props.name}</h4>
                     </div>
                     <div className="col-md-6">
-                        <HALButton prefix="animation" suffix="play" writeable={true}
-                                name={name} session={session}
-                                icon="play"/>
+                        <HALButton prefix="animation" suffix="play"
+                                   writeable={true} name={name}
+                                   session={session} icon="play"/>
                         &nbsp;
-                        <HALButton prefix="animation" suffix="loop" writeable={true}
-                                name={name} session={session}
-                                icon="repeat"/>
+                        <HALButton prefix="animation" suffix="loop"
+                                   writeable={true} name={name}
+                                   session={session} icon="repeat"/>
                     </div>
                 </div>
                 <div className="row">
+                    <div className="col-xs-12">
+                        <h5>FPS</h5>
+                    </div>
                     <div className="col-xs-12">
                         <AnimationFPSSlider name={name} session={session}/>
                     </div>
