@@ -1,6 +1,8 @@
-var ButtonGroup = ReactBootstrap.ButtonGroup;
-var DropdownButton = ReactBootstrap.DropdownButton;
-var MenuItem = ReactBootstrap.MenuItem;
+var ButtonGroup    = ReactBootstrap.ButtonGroup,
+    DropdownButton = ReactBootstrap.DropdownButton,
+    MenuItem       = ReactBootstrap.MenuItem,
+    Button         = ReactBootstrap.Button;
+
 
 /* Translate boolean value to bootstrap class */
 var bool2class = function(aBoolean){
@@ -113,17 +115,14 @@ var HALButton = React.createClass({
     }
 });
 
-var AnimationFPSSlider = React.createClass({
-    halKey: function(){
-        return 'animation.' + this.props.name + '.fps';
-    },
+var HALSlider = React.createClass({
     handleChange: function(arg){
-        var fps = arg.target.value;
-        this.props.session.call(this.halKey() + '.set', [fps]);
+        var val = arg.target.value;
+        this.props.session.call(this.props.halKey + '.set', [val]);
     },
     render: function(){
         return <BootstrapSlider value={this.state.value} step={1}
-                                min={4} max={250}
+                                min={this.props.min} max={this.props.max}
                                 handleChange={this.handleChange}/>
     },
     getInitialState: function(){
@@ -133,8 +132,8 @@ var AnimationFPSSlider = React.createClass({
         this.setState({value: parseInt(res[0], 10)});
     },
     componentDidMount: function(){
-        this.props.session.subscribe(this.halKey(), this.onUpdate);
-        this.props.session.call(this.halKey() + '.state').then(function(res){
+        this.props.session.subscribe(this.props.halKey, this.onUpdate);
+        this.props.session.call(this.props.halKey + '.state').then(function(res){
             this.onUpdate([res]);
         }.bind(this));
     }
@@ -146,34 +145,45 @@ var Animation = React.createClass({
         var name = this.props.name;
 
         return <div className="row">
-            <div className="col-xs-12">
-                <div className="row">
-                    <div className="col-xs-12">
-                        <h3>{this.props.name}</h3>
-                    </div>
-                </div>
-                <div className="row">
-                    <ButtonGroup className="col-md-12">
-                        <HALButton prefix="animation" suffix="play"
-                                   writeable={true} name={name}
-                                   session={session} icon="play"/>
-                        <HALButton prefix="animation" suffix="loop"
-                                   writeable={true} name={name}
-                                   session={session} icon="repeat"/>
-                        <DropdownButton bsStyle="primary">
-                            <MenuItem>
-                                <h4>FPS</h4>
-                                <AnimationFPSSlider name={name} session={session}/>
-                            </MenuItem>
-                            <MenuItem divider />
-                            <MenuItem>
-                                <h4>Constant frame</h4>
-                                <p>Coming soon...</p>
-                            </MenuItem>
-                        </DropdownButton>
-                    </ButtonGroup>
-                </div>
-            </div>
+            <ButtonGroup className="col-md-12">
+                <HALButton prefix="animation" suffix="play"
+                           writeable={true} name={name}
+                           session={session} icon="play"/>
+                <HALButton prefix="animation" suffix="loop"
+                           writeable={true} name={name}
+                           session={session} icon="repeat"/>
+                <DropdownButton title={this.props.name}>
+                    <MenuItem header>
+                        <h3>{this.props.name.toUpperCase()}</h3>
+                    </MenuItem>
+                    <MenuItem divider />
+                    <MenuItem>
+                        <h4>
+                            FPS&nbsp;
+                            <small>Animation speed</small>
+                        </h4>
+                        <HALSlider halKey={'animation.'+this.props.name+'.fps'}
+                                   min={4} max={250} session={session}/>
+                    </MenuItem>
+                    <MenuItem divider />
+                    <MenuItem>
+                        <h4>
+                            Constant frame&nbsp;
+                            <small>Fixed light</small>
+                        </h4>
+                        <HALSlider halKey={'animation.'+this.props.name+'.light'}
+                                   min={0} max={255} session={session}/>
+                    </MenuItem>
+                    <MenuItem divider />
+                    <MenuItem>
+                        <h4>
+                            Sinusoid&nbsp;
+                            <small>Glowing animation</small>
+                        </h4>
+                        <p>Coming soon...</p>
+                    </MenuItem>
+                </DropdownButton>
+            </ButtonGroup>
         </div>;
     }
 });

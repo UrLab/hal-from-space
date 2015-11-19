@@ -86,6 +86,21 @@ class Component(ApplicationSession):
                 animation.fps = int(fps)
             yield from self.register(set_fps, key + '.fps.set')
 
+            def current_light(animation=anim):
+                frames = animation.frames
+                if len(frames) > 0:
+                    return int(frames[0])
+                else:
+                    return 0
+            yield from self.register(current_light, key + '.light.state')
+
+            def set_light(val, animation=anim):
+                frames = [int(val) % 256]
+                animation.frames = frames
+                key = 'animation.%s.light' % animation.name
+                self.publish(key, frames[0])
+            yield from self.register(set_light, key + '.light.set')
+
             @anim.on_change
             def publish_anim(animation):
                 key = "animation.%s" % animation.name
