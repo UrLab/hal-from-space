@@ -108,20 +108,50 @@ var HALButton = React.createClass({
     }
 });
 
+var AnimationSlider = React.createClass({
+    halKey: function(){return 'animation.' + this.props.name + '.fps';},
+    handleChange: function(arg){console.log(arg);},
+    render: function(){
+        return <BootstrapSlider value={this.state.value} step={4}
+                                min={4} max={250}
+                                handleChange={this.handleChange}/>
+    },
+    getInitialState: function(){
+        return {value: 0};
+    },
+    onUpdate: function(res){
+        this.setState({value: res[0]});
+    },
+    componentDidMount: function(){
+        this.props.session.subscribe(this.halKey(), this.onUpdate);
+        this.props.session.call(this.halKey() + '.state').then(function(res){
+            this.onUpdate([res]);
+        }.bind(this));
+    }
+});
+
 var Animation = React.createClass({
     render: function(){
-        return <div className="row">
-            <div className="col-md-6">
-                <h4>{this.props.name}</h4>
+        var session = this.props.session;
+        var name = this.props.name;
+
+        return <div className="container">
+            <div className="row">
+                <div className="col-md-6">
+                    <h4>{this.props.name}</h4>
+                </div>
+                <div className="col-md-6">
+                    <HALButton prefix="animation" suffix="play" writeable={true}
+                            name={name} session={session}
+                            icon="play"/>
+                    &nbsp;
+                    <HALButton prefix="animation" suffix="loop" writeable={true}
+                            name={name} session={session}
+                            icon="repeat"/>
+                </div>
             </div>
-            <div className="col-md-6">
-                <HALButton prefix="animation" suffix="play" writeable={true}
-                        name={this.props.name} session={this.props.session}
-                        icon="play"/>
-                &nbsp;
-                <HALButton prefix="animation" suffix="loop" writeable={true}
-                        name={this.props.name} session={this.props.session}
-                        icon="repeat"/>
+            <div className="row">
+                <AnimationSlider name={name} session={session}/>
             </div>
         </div>;
     }
