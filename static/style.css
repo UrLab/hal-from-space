@@ -20,3 +20,9 @@ body {
 html {
     overflow-x:hidden;
 }
+img {
+    display: block;
+    max-width: 90vw;
+    margin-left: auto;
+    margin-right: auto;
+}
