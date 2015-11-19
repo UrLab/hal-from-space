@@ -34,14 +34,17 @@ var HALButton = React.createClass({
         return this.props.prefix + '.' + this.props.name + suffix;
     },
     bootstrapClass: function(){
-        return (this.props.writeable ? "btn btn-" : "disabled btn btn-");
+        var klass = "btn btn-lg btn-" + this.state.button_class;
+        if (! this.props.writeable){
+            klass = "disabled " + klass;
+        }
+        if (this.props.klass){
+            klass = this.props.klass + ' ' + klass;
+        }
+        return klass;
     },
     render: function(){
-        var klass = this.bootstrapClass() + this.state.button_class;
-        if (this.props.klass){
-            klass = klass + " " + this.props.klass;
-        }
-
+        var klass = this.bootstrapClass();
         var caption = this.props.name;
         if (this.props.icon){
             caption = <i className={"glyphicon glyphicon-"+this.props.icon}></i>;
