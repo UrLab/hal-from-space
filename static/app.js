@@ -170,7 +170,7 @@ var HAL = React.createClass({
                 <Panel header="Such animations" kind="success" content={animations} icon="fire"/>
             </div>
             <div className="col-lg-3 col-md-6 col-sm-12 col-xs-12">
-                <Panel header="Verey triggers" kind="warning" content={triggers} icon="log-in"/>
+                <Panel header="Very triggers" kind="warning" content={triggers} icon="log-in"/>
             </div>
             <div className="col-lg-3 col-md-6 col-sm-12 col-xs-12">
                 <Panel header="Wow sensors" kind="info" content={sensors} icon="stats"/>
