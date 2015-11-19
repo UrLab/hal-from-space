@@ -7,6 +7,12 @@ var bool2class = function(aBoolean){
     return "default";
 };
 
+var Icon = React.createClass({
+    render: function(){
+        return <i className={"glyphicon glyphicon-"+this.props.name}></i>;
+    }
+})
+
 var Sensor = React.createClass({
     halKey: function(){return 'sensor.' + this.props.name;},
     render: function(){
@@ -74,7 +80,7 @@ var HALButton = React.createClass({
         var klass = this.bootstrapClass();
         var caption = this.props.name;
         if (this.props.icon){
-            caption = <i className={"glyphicon glyphicon-"+this.props.icon}></i>;
+            caption = <Icon name={this.props.icon}/>;
         } else if (this.props.suffix){
             caption = this.props.name + ' ' + this.props.suffix;
         }
@@ -128,7 +134,7 @@ var Panel = React.createClass({
         });
         var icon_dom = '';
         if (this.props.icon){
-            icon_dom = <i className={"glyphicon glyphicon-"+this.props.icon}></i>;
+            icon_dom = <Icon name={this.props.icon}/>;
         }
         return <div className={"panel panel-"+this.props.kind}>
             <div className="panel-heading">
@@ -144,18 +150,34 @@ var Panel = React.createClass({
     }
 });
 
+var LargeRowWrapper = React.createClass({
+    render: function(){
+        var klass = "col-xs-" + this.props.padding;
+        return <div className="row">
+            <div className={klass}></div>
+            {React.Children.only(this.props.children)}
+            <div className={klass}></div>
+        </div>
+    }
+});
+
 var HAL = React.createClass({
     render: function(){
         var session = this.props.session;
         var triggers = this.state.triggers.sort().map(function(trig){
-            return <HALButton prefix="trigger" name={trig} session={session}/>
+            return <LargeRowWrapper padding={2}>
+                <HALButton klass="col-xs-8" prefix="trigger"
+                           name={trig} session={session}/>
+            </LargeRowWrapper>
         });
         var sensors = this.state.sensors.sort().map(function(sens){
             return <Sensor name={sens} session={session}/>
         });
         var switchs = this.state.switchs.sort().map(function(sw){
-            return <HALButton prefix="switch" name={sw}
+            return <LargeRowWrapper padding={2}>
+                <HALButton prefix="switch" name={sw} klass="col-xs-8"
                            session={session} writeable={true}/>
+            </LargeRowWrapper>
         });
         var animations = this.state.animations.sort().map(function(anim){
             return <Animation name={anim} session={session}/>
