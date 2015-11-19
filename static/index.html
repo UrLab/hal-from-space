@@ -25,12 +25,13 @@
     </div>
 
     <!-- JQuery, Bootstrap, React, Autobahn -->
-    <script src="3rdparty/jquery-1.11.3.min.js"></script>
-    <script src="3rdparty/babel.min.js"></script>
-    <script src="3rdparty/react.min.js"></script>
-    <script src="3rdparty/react-dom.min.js"></script>
-    <script src="3rdparty/autobahn.min.js"></script>
-    <script src="3rdparty/bootstrap.min.js"></script>
+    <script type="text/javascript" src="3rdparty/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="3rdparty/babel.min.js"></script>
+    <script type="text/javascript" src="3rdparty/react.min.js"></script>
+    <script type="text/javascript" src="3rdparty/react-dom.min.js"></script>
+    <script type="text/javascript" src="3rdparty/autobahn.min.js"></script>
+    <script type="text/javascript" src="3rdparty/bootstrap.min.js"></script>
+    <script type="text/javascript" src="3rdparty/react-bootstrap.min.js"></script>
 
     <!-- Slider -->
     <script type="text/javascript" src="3rdparty/bootstrap-slider.js"></script>
@@ -42,7 +43,6 @@
 
     <script type="text/javascript">
         var widthTranslate = $("h1").width() - $("#datTitle").width();
-        console.log(widthTranslate);
         var style = document.documentElement.appendChild(
           document.createElement("style")),rule = " run {0%   {transform:translateX(0%);} \n 100% {transform:translateX("+ widthTranslate.toString() +"px);}}";
         style.sheet.insertRule("@keyframes" + rule, 0);

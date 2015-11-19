@@ -1,3 +1,8 @@
+var ButtonGroup = ReactBootstrap.ButtonGroup;
+var DropdownButton = ReactBootstrap.DropdownButton;
+var MenuItem = ReactBootstrap.MenuItem;
+
+/* Translate boolean value to bootstrap class */
 var bool2class = function(aBoolean){
     if (aBoolean === true){
         return "success";
@@ -143,26 +148,30 @@ var Animation = React.createClass({
         return <div className="row">
             <div className="col-xs-12">
                 <div className="row">
-                    <div className="col-md-6">
-                        <h4>{this.props.name}</h4>
-                    </div>
-                    <div className="col-md-6">
-                        <HALButton prefix="animation" suffix="play"
-                                   writeable={true} name={name}
-                                   session={session} icon="play"/>
-                        &nbsp;
-                        <HALButton prefix="animation" suffix="loop"
-                                   writeable={true} name={name}
-                                   session={session} icon="repeat"/>
+                    <div className="col-xs-12">
+                        <h3>{this.props.name}</h3>
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col-xs-12">
-                        <h5>FPS</h5>
-                    </div>
-                    <div className="col-xs-12">
-                        <AnimationFPSSlider name={name} session={session}/>
-                    </div>
+                    <ButtonGroup className="col-md-12">
+                        <HALButton prefix="animation" suffix="play"
+                                   writeable={true} name={name}
+                                   session={session} icon="play"/>
+                        <HALButton prefix="animation" suffix="loop"
+                                   writeable={true} name={name}
+                                   session={session} icon="repeat"/>
+                        <DropdownButton bsStyle="primary">
+                            <MenuItem>
+                                <h4>FPS</h4>
+                                <AnimationFPSSlider name={name} session={session}/>
+                            </MenuItem>
+                            <MenuItem divider />
+                            <MenuItem>
+                                <h4>Constant frame</h4>
+                                <p>Coming soon...</p>
+                            </MenuItem>
+                        </DropdownButton>
+                    </ButtonGroup>
                 </div>
             </div>
         </div>;
