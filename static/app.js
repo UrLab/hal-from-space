@@ -34,7 +34,7 @@ var HALButton = React.createClass({
         return this.props.prefix + '.' + this.props.name + suffix;
     },
     bootstrapClass: function(){
-        var klass = "btn btn-lg btn-" + this.state.button_class;
+        var klass = "btn btn-" + this.state.button_class;
         if (! this.props.writeable){
             klass = "disabled " + klass;
         }
