@@ -12,13 +12,37 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" integrity="sha384-aUGj/X2zp5rLCbBxumKTCw2Z50WgIr1vs/PFN4praOTvYXWlVyh2UtNUU0KAUhAX" crossorigin="anonymous">
 
     <style type="text/css">
+      h1 {
+        color: white;
+        text-shadow: 0px 0px 10px #FF1FD6;
+        animation: marquee 5s linear infinite;
+        animation-direction: alternate;
+      }
+      @keyframes marquee {
+          from  {
+              transform:translateX(0%);
+          }
+          to {
+              transform:translateX(50%);
+          }
+      }
       ul {list-style: none;}
+      body {
+        background-image: url("/static/wall.jpg");
+        background-repeat: no-repeat;
+        background-position:center center;
+        background-size: cover;
+      }
     </style>
 
   </head>
   <body>
     <div class="container">
-      <h1>HAL From Space</h1>
+      <div class="row">
+        <div class="col-s-12">
+          <h1>HAL From Space</h1>
+        </div>
+      </div>
       <div id="content">
         <img src="loading.gif" alt="loading..."/ style="max-width: 90vw">
       </div>
