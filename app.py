@@ -5,20 +5,19 @@ from halpy import HAL
 from config import WAMP_BROKER, WAMP_REALM, HALFS_ROOT
 
 
-class WebHAL(HAL):
-    def layout(self):
-        return {
-            'animations': list(self.animations.keys()),
-            'switchs': list(self.switchs.keys()),
-            'sensors': list(self.sensors.keys()),
-            'triggers': list(self.triggers.keys()),
-        }
-
-
 class Component(ApplicationSession):
     """
     An application component that publishes an event every second.
     """
+
+    @asyncio.coroutine
+    def tree(self):
+        return {
+            'animations': list(self.hal.animations.keys()),
+            'switchs': list(self.hal.switchs.keys()),
+            'sensors': list(self.hal.sensors.keys()),
+            'triggers': list(self.hal.triggers.keys()),
+        }
 
     @asyncio.coroutine
     def periodic_tasks(self):
@@ -96,8 +95,8 @@ class Component(ApplicationSession):
 
     @asyncio.coroutine
     def onJoin(self, details):
-        self.hal = WebHAL(HALFS_ROOT)
-        yield from self.register(self.hal.layout, u'tree')
+        self.hal = HAL(HALFS_ROOT)
+        yield from self.register(self.tree, u'tree')
         yield from self.register_switchs()
         yield from self.register_triggers()
         yield from self.register_animations()
