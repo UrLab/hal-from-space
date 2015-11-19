@@ -185,16 +185,16 @@ var HAL = React.createClass({
 
         return <div className="row">
             <div className="col-lg-3 col-md-6 col-sm-12 col-xs-12">
-                <Panel header="Switchs" kind="danger" content={switchs} icon="log-out"/>
+                <Panel header="Many switchs" kind="danger" content={switchs} icon="log-out"/>
             </div>
             <div className="col-lg-3 col-md-6 col-sm-12 col-xs-12">
-                <Panel header="Animations" kind="success" content={animations} icon="fire"/>
+                <Panel header="Such animations" kind="success" content={animations} icon="fire"/>
             </div>
             <div className="col-lg-3 col-md-6 col-sm-12 col-xs-12">
-                <Panel header="Triggers" kind="warning" content={triggers} icon="log-in"/>
+                <Panel header="Very triggers" kind="warning" content={triggers} icon="log-in"/>
             </div>
             <div className="col-lg-3 col-md-6 col-sm-12 col-xs-12">
-                <Panel header="Sensors" kind="info" content={sensors} icon="stats"/>
+                <Panel header="Wow sensors" kind="info" content={sensors} icon="stats"/>
             </div>
         </div>
     },
