@@ -14,8 +14,7 @@ var Sensor = React.createClass({
         var klass = "progress-bar";
         if (25 < this.state.value && this.state.value <= 50){
             klass += " progress-bar-info"
-        }
-        if (50 < this.state.value && this.state.value <= 75){
+        } else if (50 < this.state.value && this.state.value <= 75){
             klass += " progress-bar-warning";
         } else if (this.state.value > 75){
             klass += " progress-bar-danger";
