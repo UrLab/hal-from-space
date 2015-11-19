@@ -10,41 +10,13 @@
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" integrity="sha384-aUGj/X2zp5rLCbBxumKTCw2Z50WgIr1vs/PFN4praOTvYXWlVyh2UtNUU0KAUhAX" crossorigin="anonymous">
-
-    <style type="text/css">
-      h1 {
-        color: white;
-        text-shadow: 0px 0px 10px #FF1FD6;
-        animation: marquee 5s linear infinite;
-        animation-direction: alternate;
-      }
-      @keyframes marquee {
-        from  {
-          transform:translateX(0%);
-        }
-        to {
-          transform:translateX(50%);
-        }
-      }
-      ul {list-style: none;}
-      body {
-        background-image: url("/wall.jpg");
-        background-repeat: no-repeat;
-        background-position:center center;
-        background-size: cover;
-      }
-      .panel, .panel-body li {
-        background-color: rgba(255, 255, 255, 0.5);
-        font-weight: bolder;
-      }
-    </style>
-
+    <link rel="stylesheet" href="style.css">
   </head>
   <body>
     <div class="container">
       <div class="row">
         <div class="col-sm-12">
-          <h1>HAL From Space</h1>
+            <h1><span id="datTitle">HAL From Space</span></h1>
         </div>
       </div>
       <div id="content">

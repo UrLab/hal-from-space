@@ -1,0 +1,20 @@
+h1 {
+    color: white;
+    text-shadow: 0px 0px 10px #FF1FD6;
+    animation: run 5s linear infinite;
+    animation-direction: alternate;
+    font-family: "Comic Sans MS", cursive, sans-serif;
+}
+
+ul {list-style: none;}
+body {
+    background-image: url("/wall.jpg");
+    background-repeat: no-repeat;
+    background-position:center center;
+    background-size: cover;
+}
+.panel, .panel-body li {
+    background-color: rgba(255, 255, 255, 0.5);
+    font-weight: bolder;
+}
+
