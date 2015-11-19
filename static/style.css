@@ -11,6 +11,7 @@ body {
     background-repeat: no-repeat;
     background-position:center center;
     background-size: cover;
+    min-height: 100vh;
 }
 .panel, .panel-body li {
     background-color: rgba(255, 255, 255, 0.5);
