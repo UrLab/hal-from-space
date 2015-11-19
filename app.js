@@ -110,17 +110,17 @@ var Panel = React.createClass({
 var HAL = React.createClass({
     render: function(){
         var session = this.props.session;
-        var triggers = this.state.triggers.map(function(trig){
+        var triggers = this.state.triggers.sort().map(function(trig){
             return <HALButton prefix="trigger" name={trig} session={session}/>
         });
-        var sensors = this.state.sensors.map(function(sens){
+        var sensors = this.state.sensors.sort().map(function(sens){
             return <Sensor name={sens} session={session}/>
         });
-        var switchs = this.state.switchs.map(function(sw){
+        var switchs = this.state.switchs.sort().map(function(sw){
             return <HALButton prefix="switch" name={sw}
                            session={session} writeable={true}/>
         });
-        var animations = this.state.animations.map(function(anim){
+        var animations = this.state.animations.sort().map(function(anim){
             return <Animation name={anim} session={session}/>
         });
 
