@@ -168,6 +168,7 @@ var Animation = React.createClass({
                     <MenuItem divider />
                     <MenuItem>
                         <h4>
+                            <Icon name="record"/>&nbsp;
                             Constant frame&nbsp;
                             <small>Fixed light</small>
                         </h4>
@@ -177,10 +178,12 @@ var Animation = React.createClass({
                     <MenuItem divider />
                     <MenuItem>
                         <h4>
+                            <Icon name="play-circle"/>&nbsp;
                             Sinusoid&nbsp;
                             <small>Glowing animation</small>
                         </h4>
-                        <p>Coming soon...</p>
+                        <HALSlider halKey={'animation.'+this.props.name+'.sinusoid'}
+                                   min={0} max={255} session={session}/>
                     </MenuItem>
                 </DropdownButton>
             </ButtonGroup>

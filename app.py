@@ -2,6 +2,7 @@ import asyncio
 from os import environ
 from autobahn.asyncio.wamp import ApplicationSession, ApplicationRunner
 from halpy import HAL
+from halpy.generators import sinusoid
 from config import WAMP_BROKER, WAMP_REALM, HALFS_ROOT
 
 
@@ -100,6 +101,18 @@ class Component(ApplicationSession):
                 key = 'animation.%s.light' % animation.name
                 self.publish(key, frames[0])
             yield from self.register(set_light, key + '.light.set')
+
+            def current_sinusoid(animation=anim):
+                return getattr(animation, 'sinusoid', 0)
+            yield from self.register(current_sinusoid, key + '.sinusoid.state')
+
+            def set_sinusoid(val, animation=anim):
+                val_max = int(val) % 256
+                animation.frames = sinusoid(val_max=val_max, n_frames=100)
+                animation.sinusoid = val_max
+                key = 'animation.%s.sinusoid' % animation.name
+                self.publish(key, val_max)
+            yield from self.register(set_sinusoid, key + '.sinusoid.set')
 
             @anim.on_change
             def publish_anim(animation):
