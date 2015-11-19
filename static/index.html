@@ -19,12 +19,12 @@
         animation-direction: alternate;
       }
       @keyframes marquee {
-          from  {
-              transform:translateX(0%);
-          }
-          to {
-              transform:translateX(50%);
-          }
+        from  {
+          transform:translateX(0%);
+        }
+        to {
+          transform:translateX(50%);
+        }
       }
       ul {list-style: none;}
       body {
@@ -33,13 +33,17 @@
         background-position:center center;
         background-size: cover;
       }
+      .panel, .panel-body li {
+        background-color: rgba(255, 255, 255, 0.5);
+        font-weight: bolder;
+      }
     </style>
 
   </head>
   <body>
     <div class="container">
       <div class="row">
-        <div class="col-s-12">
+        <div class="col-sm-12">
           <h1>HAL From Space</h1>
         </div>
       </div>
