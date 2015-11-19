@@ -108,11 +108,14 @@ var HALButton = React.createClass({
     }
 });
 
-var AnimationSlider = React.createClass({
+var AnimationFPSSlider = React.createClass({
     halKey: function(){return 'animation.' + this.props.name + '.fps';},
-    handleChange: function(arg){console.log(arg);},
+    handleChange: function(arg){
+        var fps = arg.target.value;
+        this.props.session.call(this.halKey() + '.set', [fps]);
+    },
     render: function(){
-        return <BootstrapSlider value={this.state.value} step={4}
+        return <BootstrapSlider value={this.state.value} step={1}
                                 min={4} max={250}
                                 handleChange={this.handleChange}/>
     },
@@ -120,7 +123,7 @@ var AnimationSlider = React.createClass({
         return {value: 0};
     },
     onUpdate: function(res){
-        this.setState({value: res[0]});
+        this.setState({value: parseInt(res[0], 10)});
     },
     componentDidMount: function(){
         this.props.session.subscribe(this.halKey(), this.onUpdate);
@@ -135,23 +138,27 @@ var Animation = React.createClass({
         var session = this.props.session;
         var name = this.props.name;
 
-        return <div className="container">
-            <div className="row">
-                <div className="col-md-6">
-                    <h4>{this.props.name}</h4>
+        return <div className="row">
+            <div className="col-xs-12">
+                <div className="row">
+                    <div className="col-md-6">
+                        <h4>{this.props.name}</h4>
+                    </div>
+                    <div className="col-md-6">
+                        <HALButton prefix="animation" suffix="play" writeable={true}
+                                name={name} session={session}
+                                icon="play"/>
+                        &nbsp;
+                        <HALButton prefix="animation" suffix="loop" writeable={true}
+                                name={name} session={session}
+                                icon="repeat"/>
+                    </div>
                 </div>
-                <div className="col-md-6">
-                    <HALButton prefix="animation" suffix="play" writeable={true}
-                            name={name} session={session}
-                            icon="play"/>
-                    &nbsp;
-                    <HALButton prefix="animation" suffix="loop" writeable={true}
-                            name={name} session={session}
-                            icon="repeat"/>
+                <div className="row">
+                    <div className="col-xs-12">
+                        <AnimationFPSSlider name={name} session={session}/>
+                    </div>
                 </div>
-            </div>
-            <div className="row">
-                <AnimationSlider name={name} session={session}/>
             </div>
         </div>;
     }
