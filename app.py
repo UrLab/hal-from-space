@@ -3,7 +3,7 @@ from os import environ
 from autobahn.asyncio.wamp import ApplicationSession, ApplicationRunner
 from halpy import HAL
 from halpy.generators import sinusoid
-from config import WAMP_BROKER, WAMP_REALM, HALFS_ROOT
+from config import WAMP_BROKER, WAMP_REALM, HALFS_ROOT, HAL_IGNORE
 
 
 class Component(ApplicationSession):
@@ -13,11 +13,15 @@ class Component(ApplicationSession):
 
     @asyncio.coroutine
     def tree(self):
+        def authorized(resources, ignore):
+            return list(filter(lambda x: x not in ignore, resources.keys()))
+
+        h = self.hal
         return {
-            'animations': list(self.hal.animations.keys()),
-            'switchs': list(self.hal.switchs.keys()),
-            'sensors': list(self.hal.sensors.keys()),
-            'triggers': list(self.hal.triggers.keys()),
+            'animations': authorized(h.animations, HAL_IGNORE['animations']),
+            'switchs': authorized(h.switchs, HAL_IGNORE['switchs']),
+            'sensors': authorized(h.sensors, HAL_IGNORE['sensors']),
+            'triggers': authorized(h.triggers, HAL_IGNORE['triggers']),
         }
 
     @asyncio.coroutine
