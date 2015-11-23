@@ -96,7 +96,8 @@ class Component(ApplicationSession):
             yield from self.register(current_frames, key+'.frames.state')
 
             def set_frames(frames, animation=anim):
-                animation.frames = [max(0, min(255, int(f))) for f in frames]
+                clean = lambda x: 0 if x is None else max(0, min(255, int(x)))
+                animation.frames = map(clean, frames)
             yield from self.register(set_frames, key+'.frames.set')
 
             @anim.on_change

@@ -212,7 +212,7 @@ var DrawZone = React.createClass({
         }
     },
     onUpdate: function(res){
-        var V = new Array(res[0].length);
+        var V = this.state.values;
         for (var i=0; i<V.length; i++){
             V[i] = parseInt(res[0][i]);
         }
