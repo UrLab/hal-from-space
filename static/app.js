@@ -226,7 +226,7 @@ var DrawZone = React.createClass({
         }.bind(this));
     },
     render: function(){
-        var style = {border: "solid 1px #333"};
+        var style = {border: "solid 1px #333", cursor: "crosshair"};
         return <canvas width={253} height={125} style={style}
                        onMouseDown={this.startDrawing}
                        onMouseUp={this.finishDrawing}
