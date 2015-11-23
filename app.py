@@ -87,32 +87,13 @@ class Component(ApplicationSession):
                 animation.fps = int(fps)
             yield from self.register(set_fps, key + '.fps.set')
 
-            def current_light(animation=anim):
-                frames = animation.frames
-                if len(frames) > 0:
-                    return int(frames[0])
-                else:
-                    return 0
-            yield from self.register(current_light, key + '.light.state')
+            def current_frames(animation=anim):
+                return animation.frames
+            yield from self.register(current_frames, key+'.frames.state')
 
-            def set_light(val, animation=anim):
-                frames = [int(val) % 256]
-                animation.frames = frames
-                key = 'animation.%s.light' % animation.name
-                self.publish(key, frames[0])
-            yield from self.register(set_light, key + '.light.set')
-
-            def current_sinusoid(animation=anim):
-                return getattr(animation, 'sinusoid', 0)
-            yield from self.register(current_sinusoid, key + '.sinusoid.state')
-
-            def set_sinusoid(val, animation=anim):
-                val_max = int(val) % 256
-                animation.frames = sinusoid(val_max=val_max, n_frames=100)
-                animation.sinusoid = val_max
-                key = 'animation.%s.sinusoid' % animation.name
-                self.publish(key, val_max)
-            yield from self.register(set_sinusoid, key + '.sinusoid.set')
+            def set_frames(frames, animation=anim):
+                animation.frames = [max(0, min(255, int(f))) for f in frames]
+            yield from self.register(set_frames, key+'.frames.set')
 
             @anim.on_change
             def publish_anim(animation):
@@ -120,6 +101,7 @@ class Component(ApplicationSession):
                 self.publish(key+'.loop', animation.looping)
                 self.publish(key+'.play', animation.playing)
                 self.publish(key+'.fps', animation.fps)
+                self.publish(key+'.frames', animation.frames)
 
     @asyncio.coroutine
     def onJoin(self, details):
