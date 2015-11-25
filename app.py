@@ -43,6 +43,23 @@ class Component(ApplicationSession):
             yield from self.register(current_state_trigger, key)
 
     @asyncio.coroutine
+    def register_rgbs(self):
+        for rgb in self.hal.rgbs.values():
+            key = 'rgb.%s' % rgb.name
+
+            def current_state_rgb(rgb_led=rgb):
+                return rgb_led.css
+            yield from self.register(current_state_rgb, key + '.state')
+
+            def set_rgb(color, rgb_led=rgb):
+                rgb_led.css = color
+            yield from self.register(set_rgb, key + '.set')
+
+            @rgb.on_change
+            def publish_rgb(rgb_led):
+                self.publish('rgb.%s' % rgb_led.name, rgb_led.css)
+
+    @asyncio.coroutine
     def register_switchs(self):
         for sw in self.hal.switchs.values():
             key = 'switch.%s' % sw.name
@@ -112,6 +129,7 @@ class Component(ApplicationSession):
         yield from self.register_switchs()
         yield from self.register_triggers()
         yield from self.register_animations()
+        yield from self.register_rgbs()
         self.hal.install_loop()
         yield from self.periodic_tasks()
 
