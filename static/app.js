@@ -289,14 +289,18 @@ var HALRgb = React.createClass({
         this.props.session.call(this.halKey() + '.set', [color]);
     },
     render: function(){
+        var style = {background: this.state.color};
         return <div className="row">
-            <ButtonGroup className="col-md-12">
+            <ButtonGroup className="col-xs-12">
+                <Button style={style}>
+                    <Icon name="star"/>
+                </Button>
                 <DropdownButton title={this.props.name}>
                     <MenuItem header>
                         <h3>{this.props.name.toUpperCase()}</h3>
                     </MenuItem>
-                    <MenuItem divider />
                     <MenuItem header>
+                        <h4>Color <small>Click to change</small></h4>
                         <input type="color" value={this.state.color}
                                onChange={this.handleChange}/>
                     </MenuItem>
