@@ -4,3 +4,7 @@ ve*
 .crossbar/node.pid
 local_config.py
 config.js
+static/app.js
+static/app.min.js
+static/dev.html
+node_modules/
