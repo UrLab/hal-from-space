@@ -277,6 +277,44 @@ var Animation = React.createClass({
     }
 });
 
+var HALRgb = React.createClass({
+    halKey: function(){
+        return "rgb." + this.props.name;
+    },
+    getInitialState: function(){
+        return {color: '#000000'};
+    },
+    handleChange: function(arg){
+        var color = arg.target.value;
+        this.props.session.call(this.halKey() + '.set', [color]);
+    },
+    render: function(){
+        return <div className="row">
+            <ButtonGroup className="col-md-12">
+                <DropdownButton title={this.props.name}>
+                    <MenuItem header>
+                        <h3>{this.props.name.toUpperCase()}</h3>
+                    </MenuItem>
+                    <MenuItem divider />
+                    <MenuItem header>
+                        <input type="color" value={this.state.color}
+                               onChange={this.handleChange}/>
+                    </MenuItem>
+                </DropdownButton>
+            </ButtonGroup>
+        </div>;
+    },
+    onUpdate: function(res){
+        this.setState({color: res[0]});
+    },
+    componentDidMount: function(){
+        this.props.session.subscribe(this.halKey(), this.onUpdate);
+        this.props.session.call(this.halKey() + '.state').then(function(res){
+            this.onUpdate([res]);
+        }.bind(this));
+    }
+});
+
 var Panel = React.createClass({
     render: function(){
         var lis = this.props.content.map(function(element){
@@ -332,10 +370,16 @@ var HAL = React.createClass({
         var animations = this.state.animations.sort().map(function(anim){
             return <Animation name={anim} session={session}/>
         });
+        var rgbs = this.state.rgbs.sort().map(function(rgb){
+            return <HALRgb name={rgb} session={session}/>
+        });
 
         return <div className="row">
             <div className="col-lg-3 col-md-6 col-sm-12 col-xs-12">
                 <Panel header="Many switchs" kind="danger" content={switchs} icon="log-out"/>
+            </div>
+            <div className="col-lg-3 col-md-6 col-sm-12 col-xs-12">
+                <Panel header="Much RGB leds" kind="primary" content={rgbs} icon="star"/>
             </div>
             <div className="col-lg-3 col-md-6 col-sm-12 col-xs-12">
                 <Panel header="Such animations" kind="success" content={animations} icon="fire"/>
@@ -353,7 +397,8 @@ var HAL = React.createClass({
             animations: [],
             switchs: [],
             sensors: [],
-            triggers: []
+            triggers: [],
+            rgbs: []
         };
     },
     componentDidMount: function(){
