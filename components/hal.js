@@ -16,47 +16,59 @@ var LargeRowWrapper = React.createClass({
 });
 
 module.exports = React.createClass({
-    render: function(){
+    renderPanels: function(){
         var session = this.props.session;
-        var triggers = this.state.triggers.sort().map(function(trig){
-            return <LargeRowWrapper padding={2}>
-                <HALButton klass="col-xs-8" prefix="trigger"
-                           name={trig} session={session}/>
-            </LargeRowWrapper>
-        });
-        var sensors = this.state.sensors.sort().map(function(sens){
-            return <HALSensor name={sens} session={session}/>
-        });
-        var switchs = this.state.switchs.sort().map(function(sw){
-            return <LargeRowWrapper padding={2}>
-                <HALButton prefix="switch" name={sw} klass="col-xs-8"
-                           session={session} writeable={true}/>
-            </LargeRowWrapper>
-        });
-        var animations = this.state.animations.sort().map(function(anim){
-            return <HALAnimation name={anim} session={session}/>
-        });
-        var rgbs = this.state.rgbs.sort().map(function(rgb){
-            return <HALRgb name={rgb} session={session}/>
-        });
+        return [
+            {
+                icon: 'log-out', header: "Many Switchs", kind: 'danger',
+                content: this.state.switchs.sort().map(function(sw){
+                    return <LargeRowWrapper padding={2}>
+                        <HALButton prefix="switch" name={sw} klass="col-xs-8"
+                                   session={session} writeable={true}/>
+                    </LargeRowWrapper>;
+                })
+            },
+            {
+                icon: 'star', header: "Much RGB leds", kind: 'primary',
+                content: this.state.rgbs.sort().map(function(rgb){
+                    return <HALRgb name={rgb} session={session}/>;
+                })
+            },
+            {
+                icon: 'fire', header: "Such Animations", kind: 'success',
+                content: this.state.animations.sort().map(function(anim){
+                    return <HALAnimation name={anim} session={session}/>;
+                })
+            },
+            {
+                icon: 'log-in', header: "Very Triggers", kind: 'warning',
+                content: this.state.triggers.sort().map(function(trig){
+                    return <LargeRowWrapper padding={2}>
+                        <HALButton klass="col-xs-8" prefix="trigger"
+                                   name={trig} session={session}/>
+                    </LargeRowWrapper>;
+                })
+            },
+            {
+                icon: 'stats', header: "Wow Sensors", kind: 'info',
+                content: this.state.sensors.sort().map(function(sens){
+                    return <HALSensor name={sens} session={session}/>;
+                })
+            }
+        ];
+    },
+    render: function(){
+        var panelsWrapped = this.renderPanels().map(function(pan){
+            return <div className="col-lg-2 col-md-6 col-sm-12 col-xs-12">
+                <Panel header={pan.header} kind={pan.kind} icon={pan.icon}>
+                    {pan.content}
+                </Panel>
+            </div>;
+        })
 
         return <div className="row">
             <div className="col-lg-1 lg-only"></div>
-            <div className="col-lg-2 col-md-6 col-sm-12 col-xs-12">
-                <Panel header="Many switchs" kind="danger" content={switchs} icon="log-out"/>
-            </div>
-            <div className="col-lg-2 col-md-6 col-sm-12 col-xs-12">
-                <Panel header="Much RGB leds" kind="primary" content={rgbs} icon="star"/>
-            </div>
-            <div className="col-lg-2 col-md-6 col-sm-12 col-xs-12">
-                <Panel header="Such animations" kind="success" content={animations} icon="fire"/>
-            </div>
-            <div className="col-lg-2 col-md-6 col-sm-12 col-xs-12">
-                <Panel header="Very triggers" kind="warning" content={triggers} icon="log-in"/>
-            </div>
-            <div className="col-lg-2 col-md-6 col-sm-12 col-xs-12">
-                <Panel header="Wow sensors" kind="info" content={sensors} icon="stats"/>
-            </div>
+            {panelsWrapped}
             <div className="col-lg-1 lg-only"></div>
         </div>
     },
