@@ -1,8 +1,6 @@
 import asyncio
-from os import environ
 from autobahn.asyncio.wamp import ApplicationSession, ApplicationRunner
 from halpy import HAL
-from halpy.generators import sinusoid
 from config import WAMP_BROKER, WAMP_REALM, HALFS_ROOT, HAL_IGNORE
 
 
