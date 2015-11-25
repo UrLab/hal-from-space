@@ -379,21 +379,23 @@ var HAL = React.createClass({
         });
 
         return <div className="row">
-            <div className="col-lg-3 col-md-6 col-sm-12 col-xs-12">
+            <div className="col-lg-1 lg-only"></div>
+            <div className="col-lg-2 col-md-6 col-sm-12 col-xs-12">
                 <Panel header="Many switchs" kind="danger" content={switchs} icon="log-out"/>
             </div>
-            <div className="col-lg-3 col-md-6 col-sm-12 col-xs-12">
+            <div className="col-lg-2 col-md-6 col-sm-12 col-xs-12">
                 <Panel header="Much RGB leds" kind="primary" content={rgbs} icon="star"/>
             </div>
-            <div className="col-lg-3 col-md-6 col-sm-12 col-xs-12">
+            <div className="col-lg-2 col-md-6 col-sm-12 col-xs-12">
                 <Panel header="Such animations" kind="success" content={animations} icon="fire"/>
             </div>
-            <div className="col-lg-3 col-md-6 col-sm-12 col-xs-12">
+            <div className="col-lg-2 col-md-6 col-sm-12 col-xs-12">
                 <Panel header="Very triggers" kind="warning" content={triggers} icon="log-in"/>
             </div>
-            <div className="col-lg-3 col-md-6 col-sm-12 col-xs-12">
+            <div className="col-lg-2 col-md-6 col-sm-12 col-xs-12">
                 <Panel header="Wow sensors" kind="info" content={sensors} icon="stats"/>
             </div>
+            <div className="col-lg-1 lg-only"></div>
         </div>
     },
     getInitialState: function(){
