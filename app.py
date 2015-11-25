@@ -1,7 +1,7 @@
 import asyncio
 from autobahn.asyncio.wamp import ApplicationSession, ApplicationRunner
 from halpy import HAL
-from config import WAMP_BROKER, WAMP_REALM, HALFS_ROOT, HAL_IGNORE
+from config import WAMP_BROKER, WAMP_REALM, HALFS_ROOT, HAL_IGNORE, DEBUG
 
 
 class Component(ApplicationSession):
@@ -11,15 +11,14 @@ class Component(ApplicationSession):
 
     @asyncio.coroutine
     def tree(self):
-        def authorized(resources, ignore):
+        def authorized(resources, ignore_key):
+            ignore = HAL_IGNORE.get(ignore_key, set())
             return list(filter(lambda x: x not in ignore, resources.keys()))
 
         h = self.hal
         return {
-            'animations': authorized(h.animations, HAL_IGNORE['animations']),
-            'switchs': authorized(h.switchs, HAL_IGNORE['switchs']),
-            'sensors': authorized(h.sensors, HAL_IGNORE['sensors']),
-            'triggers': authorized(h.triggers, HAL_IGNORE['triggers']),
+            resource: authorized(getattr(h, resource, []), resource)
+            for resource in h.resource_mapping.keys()
         }
 
     @asyncio.coroutine
@@ -118,5 +117,5 @@ class Component(ApplicationSession):
 
 
 if __name__ == '__main__':
-    runner = ApplicationRunner(WAMP_BROKER, WAMP_REALM)
+    runner = ApplicationRunner(WAMP_BROKER, WAMP_REALM, debug_wamp=DEBUG)
     runner.run(Component)
