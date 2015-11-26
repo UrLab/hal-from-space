@@ -9,6 +9,8 @@ Control [HAL](https://github.com/urlab/hal) in a reactive WebApp from the hacker
     virtualenv -p python3 ve3
     source ve3/bin/activate
     pip install -r requirements.txt
+    npm install browserify reactify uglifyify
+    make
 
 ## Run
 
