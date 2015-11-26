@@ -1,13 +1,13 @@
-var HALButton = require('./halbutton'),
+const HALButton = require('./halbutton'),
     HALSlider = require('./halslider'),
     Icon      = require('./icon');
 
-var ButtonGroup    = ReactBootstrap.ButtonGroup,
+const ButtonGroup    = ReactBootstrap.ButtonGroup,
     DropdownButton = ReactBootstrap.DropdownButton,
     MenuItem       = ReactBootstrap.MenuItem,
     Button         = ReactBootstrap.Button;
 
-var DrawZone = React.createClass({
+const DrawZone = React.createClass({
     fillValues: function(x1, y1, x2, y2){
         var y, dy, x, dx;
         if (x1 < x2){
@@ -104,7 +104,7 @@ var DrawZone = React.createClass({
     }
 });
 
-module.exports = React.createClass({
+const HALAnimation = React.createClass({
     render: function(){
         var session = this.props.session;
         var name = this.props.name;
@@ -145,3 +145,5 @@ module.exports = React.createClass({
         </div>;
     }
 });
+
+module.exports = HALAnimation;

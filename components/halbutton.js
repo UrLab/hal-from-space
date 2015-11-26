@@ -8,7 +8,7 @@ var bool2class = function(aBoolean){
     return "default";
 };
 
-module.exports = React.createClass({
+const HALButton = React.createClass({
     bootstrapClass: function(){
         var klass = "btn btn-" + bool2class(this.state.active);
         if (! this.props.writeable){
@@ -43,3 +43,5 @@ module.exports = React.createClass({
         this.props.session.subscribe(this.props.halKey, this.onUpdate);
     }
 });
+
+module.exports = HALButton;

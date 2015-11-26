@@ -1,4 +1,4 @@
-module.exports = React.createClass({
+const HALSensor = React.createClass({
     halKey: function(){return 'sensor.' + this.props.name;},
     render: function(){
         var style = {'width': this.state.value + '%'};
@@ -45,3 +45,5 @@ module.exports = React.createClass({
         this.props.session.subscribe(this.halKey(), this.onUpdate);
     }
 });
+
+module.exports = HALSensor;

@@ -1,4 +1,4 @@
-module.exports = React.createClass({
+const HALSlider = React.createClass({
     handleChange: function(arg){
         var val = arg.target.value;
         this.props.session.call(this.props.halKey + '.set', [val]);
@@ -21,3 +21,5 @@ module.exports = React.createClass({
         }.bind(this));
     }
 });
+
+module.exports = HALSlider;

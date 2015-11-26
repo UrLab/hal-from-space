@@ -5,7 +5,7 @@ var ButtonGroup    = ReactBootstrap.ButtonGroup,
     MenuItem       = ReactBootstrap.MenuItem,
     Button         = ReactBootstrap.Button;
 
-module.exports = React.createClass({
+const HALRgb = React.createClass({
     halKey: function(){
         return "rgb." + this.props.name;
     },
@@ -46,3 +46,5 @@ module.exports = React.createClass({
         }.bind(this));
     }
 });
+
+module.exports = HALRgb;

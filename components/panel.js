@@ -1,6 +1,6 @@
 var Icon = require('./icon');
 
-module.exports = React.createClass({
+const Panel = React.createClass({
     render: function(){
         var children = React.Children.map(this.props.children, function(element){
             return <li className="list-group-item">{element}</li>;
@@ -23,3 +23,5 @@ module.exports = React.createClass({
         </div>
     }
 });
+
+module.exports = Panel;

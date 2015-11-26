@@ -1,10 +1,10 @@
-var HALButton    = require('./halbutton'),
+const HALButton    = require('./halbutton'),
     HALSensor    = require('./halsensor'),
     HALRgb       = require('./halrgb'),
     HALAnimation = require('./halanimation'),
     Panel        = require('./panel');
 
-var LargeRowWrapper = React.createClass({
+const LargeRowWrapper = React.createClass({
     render: function(){
         var klass = "col-xs-" + this.props.padding;
         return <div className="row">
@@ -15,7 +15,7 @@ var LargeRowWrapper = React.createClass({
     }
 });
 
-module.exports = React.createClass({
+const HAL = React.createClass({
     renderPanels: function(){
         var session = this.props.session;
         return [
@@ -91,3 +91,5 @@ module.exports = React.createClass({
         }.bind(this));
     }
 });
+
+module.exports = HAL;
