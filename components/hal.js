@@ -22,9 +22,11 @@ module.exports = React.createClass({
             {
                 icon: 'log-out', header: "Many Switchs", kind: 'danger',
                 content: this.state.switchs.sort().map(function(sw){
+                    var key = "switch." + sw;
                     return <LargeRowWrapper padding={2}>
-                        <HALButton prefix="switch" name={sw} klass="col-xs-8"
-                                   session={session} writeable={true}/>
+                        <HALButton klass="col-xs-8" halKey={key} writeable={true} session={session}>
+                            <span>{sw}</span>
+                        </HALButton>
                     </LargeRowWrapper>;
                 })
             },
@@ -43,9 +45,11 @@ module.exports = React.createClass({
             {
                 icon: 'log-in', header: "Very Triggers", kind: 'warning',
                 content: this.state.triggers.sort().map(function(trig){
+                    var key = "trigger." + trig;
                     return <LargeRowWrapper padding={2}>
-                        <HALButton klass="col-xs-8" prefix="trigger"
-                                   name={trig} session={session}/>
+                        <HALButton klass="col-xs-8" halKey={key} writeable={false} session={session}>
+                            <span>{trig}</span>
+                        </HALButton>
                     </LargeRowWrapper>;
                 })
             },

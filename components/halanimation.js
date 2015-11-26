@@ -1,5 +1,6 @@
 var HALButton = require('./halbutton'),
-    HALSlider = require('./halslider');
+    HALSlider = require('./halslider'),
+    Icon      = require('./icon');
 
 var ButtonGroup    = ReactBootstrap.ButtonGroup,
     DropdownButton = ReactBootstrap.DropdownButton,
@@ -65,7 +66,7 @@ var DrawZone = React.createClass({
         return {values: V, lastX: 0, lastY: 0};
     },
     renderValues: function(){
-        var canvas = this.getDOMNode();
+        var canvas = ReactDOM.findDOMNode(this);
         var ctx = canvas.getContext('2d');
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -107,15 +108,16 @@ module.exports = React.createClass({
     render: function(){
         var session = this.props.session;
         var name = this.props.name;
+        var key = "animation." + name;
 
         return <div className="row">
             <ButtonGroup className="col-md-12">
-                <HALButton prefix="animation" suffix="play"
-                           writeable={true} name={name}
-                           session={session} icon="play"/>
-                <HALButton prefix="animation" suffix="loop"
-                           writeable={true} name={name}
-                           session={session} icon="repeat"/>
+                <HALButton halKey={key+'.play'} writeable={true} session={session}>
+                    <Icon name="play"/>
+                </HALButton>
+                <HALButton halKey={key+'.loop'} writeable={true} session={session}>
+                    <Icon name="repeat"/>
+                </HALButton>
                 <DropdownButton title={this.props.name}>
                     <MenuItem header>
                         <h3>{this.props.name.toUpperCase()}</h3>
