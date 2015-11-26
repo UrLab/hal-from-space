@@ -1,0 +1,26 @@
+{
+  "name": "hal-from-space",
+  "version": "0.0.0",
+  "description": "Control your Hackerspace from a real-time webapp !",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/urlab/hal-from-space"
+  },
+  "keywords": [
+    "domotic"
+  ],
+  "author": "iTitou",
+  "license": "Beerware",
+  "bugs": {
+    "url": "https://github.com/urlab/hal-from-space/issues"
+  },
+  "dependencies": {
+    "browserify": "12.0.1",
+    "reactify": "1.1.1",
+    "uglifyify": "3.0.1"
+  }
+}
