@@ -23,9 +23,9 @@ const DrawZone = React.createClass({
 
         var V = this.state.values;
         for (var i=0; i<=dx; i++){
-            V[x + i] = y + i*dy;
+            V[x + i] = parseInt(y + i*dy);
         }
-        return V;
+        this.setState({values: V, xmin: x, xmax: x+dx});
     },
     getMousePos: function(evt){
         var canvas = evt.target;
@@ -40,14 +40,13 @@ const DrawZone = React.createClass({
             return;
         }
         var pos = this.getMousePos(evt);
-        var V = this.fillValues(pos.x, pos.y, this.state.lastX, this.state.lastY);
-        this.setState({values: V, lastX: pos.x, lastY: pos.y});
+        this.fillValues(pos.x, pos.y, this.state.lastX, this.state.lastY);
+        this.setState({lastX: pos.x, lastY: pos.y});
         this.renderValues();
     },
     startDrawing: function(evt){
         var pos = this.getMousePos(evt);
         this.setState({draw: true, lastX: pos.x, lastY: pos.y});
-        this.drawFromMouse(evt);
     },
     finishDrawing: function(evt){
         var wasDrawing = this.state.draw;
@@ -66,12 +65,14 @@ const DrawZone = React.createClass({
         return {values: V, lastX: 0, lastY: 0};
     },
     renderValues: function(){
+        var lower = this.state.xmin || 0,
+            upper = this.state.xmax || 255;
         var canvas = ReactDOM.findDOMNode(this);
         var ctx = canvas.getContext('2d');
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.clearRect(lower, 0, upper-lower+1, canvas.height);
 
         var V = this.state.values;
-        for (var x=0; x<V.length; x++){
+        for (var x=lower; x<=upper; x++){
             ctx.beginPath();
             ctx.arc(x, canvas.height-(V[x]/2),
                     this.props.pointSize, 
@@ -81,11 +82,22 @@ const DrawZone = React.createClass({
     },
     onUpdate: function(res){
         var V = this.state.values;
+        var y, xmin=255, xmax=0, changed=false;
         for (var i=0; i<V.length; i++){
-            V[i] = parseInt(res[0][i]);
+            y = res[0][i];
+            if (V[i] != y){
+                if (! changed){
+                    xmin = i;
+                }
+                V[i] = y;
+                xmax = i;
+                changed = true;
+            }
         }
-        this.setState({values: V});
-        this.renderValues();
+        if (changed){
+            this.setState({values: V, xmin: xmin, xmax: xmax});
+            this.renderValues();
+        }
     },
     componentDidMount: function(){
         this.props.session.subscribe(this.props.halKey, this.onUpdate);
