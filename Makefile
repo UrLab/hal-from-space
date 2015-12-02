@@ -11,10 +11,10 @@ components/${COMPILER}:
 	cd components && npm install
 
 static/%.js: components/%.js components/${COMPILER} components/*.js
-	cd components && ${COMPILER} ${COMPILE_DEV} -o $@ $<
+	cd components && ${COMPILER} ${COMPILE_DEV} -o ../$@ ../$<
 
 static/%.min.js: components/%.js components/${COMPILER} components/*.js
-	cd components && ${COMPILER} ${COMPILE_PROD} -o $@ $<
+	cd components && ${COMPILER} ${COMPILE_PROD} -o ../$@ ../$<
 
 static/dev.html: static/index.html
 	sed -E 's/"(.+)\.min\.(js|css)"/"\1.\2"/g' < $< > $@
