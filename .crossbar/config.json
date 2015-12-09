@@ -1,47 +1,68 @@
-
 {
-   "controller": {
-   },
-   "workers": [
-      {
-         "type": "router",
-         "realms": [
+  "controller": {
+  },
+  "workers": [
+    {
+      "type": "router",
+      "realms": [
+        {
+          "name": "hal",
+          "roles": [
             {
-               "name": "hal",
-               "roles": [
-                  {
-                     "name": "anonymous",
-                     "permissions": [
-                        {
-                           "uri": "*",
-                           "publish": true,
-                           "subscribe": true,
-                           "call": true,
-                           "register": true
-                        }
-                     ]
-                  }
-               ]
+              "name": "anonymous",
+              "permissions": [
+                {
+                  "uri": "*",
+                  "publish": true,
+                  "subscribe": true,
+                  "call": true,
+                  "register": true
+                }
+              ]
             }
-         ],
-         "transports": [
+          ]
+        },
+        {
+          "name": "urlab",
+          "roles": [
             {
-               "type": "web",
-               "endpoint": {
-                  "type": "tcp",
-                  "port": 8081
-               },
-               "paths": {
-                  "/": {
-                     "type": "static",
-                     "directory": "../static/"
-                  },
-                  "ws": {
-                     "type": "websocket"
-                  }
-               }
+              "name": "anonymous",
+              "permissions": [
+                {
+                  "uri": "*",
+                  "publish": true,
+                  "subscribe": true,
+                  "call": false,
+                  "register": false
+                }
+              ]
             }
-         ]
-      }
-   ]
+          ]
+        }
+      ],
+      "transports": [
+        {
+          "type": "web",
+          "endpoint": {
+            "type": "tcp",
+            "port": 8080
+          },
+          "paths": {
+            "/": {
+              "type": "static",
+              "directory": "."
+            },
+            "ws": {
+              "type": "websocket"
+            },
+            "publish": {
+              "type": "publisher",
+              "realm": "urlab",
+              "role": "anonymous"
+            }
+          }
+        }
+      ]
+    }
+  ]
 }
