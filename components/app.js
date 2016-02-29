@@ -5,7 +5,7 @@ $(document).ready(function(){
     try {
         url = WAMP_ENDPOINT;
     } catch (err) {
-        url = 'ws://127.0.0.1:8081/ws';
+        url = 'ws://' + window.location.hostname + '/ws';
     }
     var connection = new autobahn.Connection({
         url: url,
